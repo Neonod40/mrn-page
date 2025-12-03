@@ -6,7 +6,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-# Разрешаем фронтенду делать fetch
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
