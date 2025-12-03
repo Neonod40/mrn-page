@@ -26,7 +26,7 @@ async function getMRN(container) {
 
 async function processContainers() {
   const input = document.getElementById("input").value.trim();
-  if(!input) return alert("Вставьте хотя бы один номер контейнера");
+  if (!input) return alert("Вставьте хотя бы один номер контейнера");
   const containers = input.split(/\s*\n+\s*/).filter(Boolean);
   const loader = document.getElementById("loader");
   const output = document.getElementById("output");
@@ -34,36 +34,50 @@ async function processContainers() {
   output.innerHTML = "";
 
   let html = `<table><tr><th>Контейнер</th><th>MRN</th></tr>`;
-  for(const container of containers){
+  for (const container of containers) {
     const mrn = await getMRN(container);
-    const rowClass = mrn.includes("Ошибка") || mrn==="Не найдено" ? 'style="color:#ef4444"' : '';
-    html += `<tr><td>${escapeHtml(container)}</td><td ${rowClass}>${escapeHtml(mrn)}</td></tr>`;
+    const rowClass = mrn.includes("Ошибка") || mrn === "Не найдено" ? 'style="color:#ef4444"' : '';
+    html += `<tr>
+      <td contenteditable="false">${escapeHtml(container)}</td>
+      <td ${rowClass}>${escapeHtml(mrn)}</td>
+    </tr>`;
   }
-  html += `</table>`;
+  html += "</table>";
   output.innerHTML = html;
   loader.style.display = "none";
 }
 
-function clearAll(){
-  document.getElementById("input").value="";
-  document.getElementById("output").innerHTML="";
+function clearAll() {
+  document.getElementById("input").value = "";
+  document.getElementById("output").innerHTML = "";
 }
 
-function exportTable(){
+function exportTable() {
   const table = document.querySelector("#output table");
-  if(!table) return alert("Сначала получите результаты");
-  let csv=[];
-  for(let row of table.rows){
-    let cells=Array.from(row.cells).map(c=>`"${c.innerText.replace(/"/g,'""')}"`);
+  if (!table) return alert("Сначала получите результаты");
+  let csv = [];
+  for (let row of table.rows) {
+    let cells = Array.from(row.cells).map(c => `"${c.innerText.replace(/"/g,'""')}"`);
     csv.push(cells.join(','));
   }
-  const blob=new Blob([csv.join('\n')],{type:'text/csv;charset=utf-8;'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download=`MRN_${new Date().toISOString().slice(0,10)}.csv`;
+  const blob = new Blob([csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `MRN_${new Date().toISOString().slice(0,10)}.csv`;
   a.click();
   URL.revokeObjectURL(a.href);
 }
 
-function escapeHtml(text){ const div=document.createElement('div'); div.textContent=text; return div.innerHTML;}
-document.getElementById("input").addEventListener("keydown",e=>{ if(e.ctrlKey && e.key==="Enter") processContainers(); });
+// Копирует только MRN
+function copyMRN() {
+  const table = document.querySelector("#output table");
+  if (!table) return alert("Сначала получите результаты");
+  const mrnValues = Array.from(table.rows)
+    .slice(1)
+    .map(r => r.cells[1].innerText)
+    .join("\n");
+  navigator.clipboard.writeText(mrnValues).then(() => alert("MRN скопированы!"));
+}
+
+function escapeHtml(text) { const div=document.createElement('div'); div.textContent=text; return div.innerHTML; }
+document.getElementById("input").addEventListener("keydown", e => { if (e.ctrlKey && e.key==="Enter") processContainers(); });
