@@ -55,12 +55,17 @@ function clearAll() {
 function exportTable() {
   const table = document.querySelector("#output table");
   if (!table) return alert("Сначала получите результаты");
+
   let csv = [];
   for (let row of table.rows) {
-    let cells = Array.from(row.cells).map(c => `"${c.innerText.replace(/"/g,'""')}"`);
+    let cells = Array.from(row.cells).map(c => `"${c.innerText.replace(/"/g, '""')}"`);
     csv.push(cells.join(','));
   }
-  const blob = new Blob([csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
+
+  // Добавляем BOM для корректного открытия в Excel
+  const bom = "\uFEFF";
+  const blob = new Blob([bom + csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
+
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = `MRN_${new Date().toISOString().slice(0,10)}.csv`;
@@ -68,7 +73,8 @@ function exportTable() {
   URL.revokeObjectURL(a.href);
 }
 
-// Копирует только MRN
+
+
 function copyMRN() {
   const table = document.querySelector("#output table");
   if (!table) return alert("Сначала получите результаты");
@@ -81,3 +87,4 @@ function copyMRN() {
 
 function escapeHtml(text) { const div=document.createElement('div'); div.textContent=text; return div.innerHTML; }
 document.getElementById("input").addEventListener("keydown", e => { if (e.ctrlKey && e.key==="Enter") processContainers(); });
+
