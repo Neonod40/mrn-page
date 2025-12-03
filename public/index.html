@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MRN Checker</title>
+  <link rel="icon" href="https://img.icons8.com/fluency/48/container-truck.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="container">
+    <div class="card">
+      <h3>Номера контейнеров (по одному на строку)</h3>
+      <textarea id="input" placeholder="TCKU1234567&#10;MRKU1234567&#10;MSKU1234567"></textarea>
+      <div class="btn-group">
+        <button class="btn-primary" onclick="processContainers()">Получить MRN</button>
+        <button class="btn-danger" onclick="clearAll()">Очистить</button>
+        <button class="btn-success" onclick="exportTable()">Экспорт CSV</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Результат</h3>
+      <div id="result-container">
+        <div id="output"></div>
+      </div>
+    </div>
+  </div>
+  <div id="quote"></div>
+  <footer>
+    <div>created by <strong>NEON</strong></div>
+    <div>2025</div>
+  </footer>
+  <div id="loader">Загрузка MRN...</div>
+  <script src="script.js"></script>
+</body>
+</html>
