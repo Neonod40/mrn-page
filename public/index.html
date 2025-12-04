@@ -1,40 +1,49 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>MRN Checker</title>
   <link rel="icon" href="/fav.ico" type="image/x-icon">
   <link rel="stylesheet" href="style.css">
-  <script defer src="/_vercel/insights/script.js"></script>
 </head>
-
 <body>
-  <div id="container">
-    <div class="card">
-      <h3>Номера контейнеров (по одному на строку)</h3>
-      <textarea id="input" placeholder="TCKU1234567&#10;MRKU1234567&#10;MSKU1234567"></textarea>
-      <div class="btn-group">
-        <button class="btn-primary" onclick="processContainers()">Получить MRN</button>
-        <button class="btn-danger" onclick="clearAll()">Очистить</button>
-        <button class="btn-success" onclick="exportTable()">Экспорт CSV</button>
-        <button class="btn-primary" onclick="copyMRN()">Скопировать MRN</button>
-      </div>
-    </div>
-    <div class="card">
-      <h3>Результат</h3>
-      <div id="result-container">
-        <div id="output"></div>
-      </div>
-    </div>
-  </div>
-  <div id="quote"></div>
-  <footer>
-    <div>created by <strong>NEON</strong></div>
-    <div>2025</div>
-  </footer>
-  <div id="loader">Загрузка MRN...</div>
+  <main id="wrap">
+    <header id="topbar">
+      <h1>MRN Checker</h1>
+    </header>
+
+    <section id="container">
+      <aside class="card left-card">
+        <h3>Номера контейнеров (по одному на строку)</h3>
+        <textarea id="input" placeholder="TCKU1234567&#10;MRKU1234567"></textarea>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btn-run">Получить MRN</button>
+          <button class="btn btn-danger" id="btn-clear">Очистить</button>
+          <button class="btn btn-success" id="btn-export">Экспорт CSV</button>
+          <button class="btn btn-ghost" id="btn-copy-mrn">Скопировать MRN</button>
+        </div>
+      </aside>
+
+      <section class="card right-card">
+        <h3>Результат</h3>
+        <div id="result-wrap">
+          <div id="output" aria-live="polite"></div>
+        </div>
+      </section>
+    </section>
+
+    <div id="quote" class="card-quote" aria-hidden="false"></div>
+
+    <footer id="site-footer">
+      <div>created by <strong>NEON</strong></div>
+      <div>2025</div>
+    </footer>
+
+    <div id="loader" role="status" aria-hidden="true">Загрузка MRN...</div>
+  </main>
+
   <script src="script.js"></script>
 </body>
 </html>
-
