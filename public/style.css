@@ -38,13 +38,16 @@ body{
   -moz-osx-font-smoothing:grayscale;
   padding:18px;
   display:flex;
-  justify-content:center;
+  flex-direction:column; /* important for sticky bottom */
+  min-height:100vh;
 }
 
 /* wrapper */
 #wrap{
   width:100%;
   max-width:var(--max-w);
+  margin:0 auto;
+  flex:1 0 auto; /* allows bottom block to stick to bottom when content small */
 }
 
 /* header */
@@ -129,3 +132,6 @@ tr:hover td{ background: rgba(0,0,0,0.02); }
 
 /* Prevent horizontal overscroll on small devices */
 html,body{ overflow-x:hidden; }
+
+/* bottom block should always be last and not overlap content */
+#bottom-block{ flex-shrink:0; text-align:center; padding:12px 0 24px; }
