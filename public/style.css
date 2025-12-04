@@ -134,4 +134,11 @@ tr:hover td{ background: rgba(0,0,0,0.02); }
 html,body{ overflow-x:hidden; }
 
 /* bottom block should always be last and not overlap content */
-#bottom-block{ flex-shrink:0; text-align:center; padding:12px 0 24px; }
+#bottom-block{
+  margin-top: auto; /* push footer to the bottom when space available */
+  flex-shrink: 0;
+  text-align: center;
+  padding: 12px 0 24px;
+  /* Respect safe area on mobile (iPhone) */
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
+}
